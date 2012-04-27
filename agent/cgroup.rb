@@ -1,8 +1,8 @@
 module MCollective
   module Agent
     class Cgroup<RPC::Agent
-      metadata    :name        => "SimpleRPC Agent For CGroups Management",
-                  :description => "Agent to work with cgroups via MCollective",
+      metadata    :name        => "SimpleRPC Agent For Control Groups Management",
+                  :description => "Agent to work with Control Groups via MCollective",
                   :author      => "Billy Nadeau",
                   :license     => "BSD",
                   :version     => "1.0",
@@ -10,8 +10,7 @@ module MCollective
                   :timeout     => 5
 
       action "list" do
-        Dir.chdir("/var/lib/lxc")
-        reply[:cgroups] = Dir.glob("*").sort
+        reply[:cgroups] = getcgroups
       end
 
       action "blkio" do
@@ -50,8 +49,8 @@ module MCollective
         if request.include?(:cgroup) then
           [ request[:cgroup] ]
         else
-          Dir.chdir("/var/lib/lxc")
-          Dir.glob("*")
+          Dir.chdir("/cgroup")
+          Dir.glob("*/").map{ |x| x.chop }
         end
       end
 

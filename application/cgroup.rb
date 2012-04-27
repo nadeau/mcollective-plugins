@@ -1,10 +1,11 @@
 class MCollective::Application::Cgroup<MCollective::Application
-  description "CGroup agent, get stats"
+  description "Linux Control Groups agent"
     usage <<-END_OF_USAGE
 mco cgroup [OPTIONS] [FILTERS] <ACTION> [CONCURRENCY]
 
 The ACTION can be one of the following:
 
+    list    - returns list of active control groups
     blkio   - returns cgroup info about Block I/O
     cpu     - returns cgroup info about CPU Scheduling
     memory  - returns cgroup info about Memory Use
@@ -16,15 +17,15 @@ The ACTION can be one of the following:
   :type           => :bool
 
   option :cgroup,
-  :description    => "Single CGroup to report",
-  :arguments      => ["--cgroup CGROUP"]
+  :description    => "Single Group to report",
+  :arguments      => ["--cgroup GROUP"]
 
   def post_option_parser(configuration)
     if ARGV.length >= 1
       configuration[:command] = ARGV.shift
 
-      unless configuration[:command].match(/^(blkio|cpu|memory)$/)
-        raise "Action must be one of blkio, cpu or memory"
+      unless configuration[:command].match(/^(list|blkio|cpu|memory)$/)
+        raise "Action must be one of list, blkio, cpu or memory"
       end
     else
       raise "Please specify an action."
@@ -39,6 +40,29 @@ The ACTION can be one of the following:
 
     case configuration[:command]
 
+    when "list"
+
+      if configuration[:csv]
+        format = '"%s","%s"' + "\n";
+      else
+        format = "%-12s %-20s\n";
+      end
+
+      printf( format, "Host", "Group" );
+
+      mc.list(configuration) do |resp|
+        begin
+          resp[:body][:data][:cgroups].sort.each do |cgroup|
+            printf( format,
+                    resp[:senderid].upcase,
+                    cgroup )
+          end
+
+        rescue RPCError => e
+          puts "The RPC agent returned an error: #{e}"
+        end
+      end
+
     when "blkio"
 
       if configuration[:csv]
@@ -47,7 +71,7 @@ The ACTION can be one of the following:
         format = "%-12s %20s %8s\n";
       end
 
-      printf( format, "Host", "CGroup", "Weight" );
+      printf( format, "Host", "Group", "Weight" );
 
       mc.blkio(configuration) do |resp|
         begin
@@ -71,7 +95,7 @@ The ACTION can be one of the following:
         format = "%-12s %20s %8s\n";
       end
 
-      printf( format, "Host", "CGroup", "Shares" );
+      printf( format, "Host", "Group", "Shares" );
 
       mc.cpu(configuration) do |resp|
         begin
@@ -95,7 +119,7 @@ The ACTION can be one of the following:
         format = "%-12s %20s %8s %8s %8s\n";
       end
 
-      printf( format, "Host", "CGroup", "Used", "Max", "Limit" );
+      printf( format, "Host", "Group", "Used", "Max", "Limit" );
 
       mc.memory(configuration) do |resp|
         begin
