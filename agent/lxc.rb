@@ -4,9 +4,8 @@ module MCollective
       metadata    :name        => "SimpleRPC Agent For LXC Containers Management",
                   :description => "Agent to work with LXC via MCollective",
                   :author      => "Billy Nadeau",
-                  :license     => "BSD",
+                  :license     => "Apache License, Version 2.0",
                   :version     => "1.0",
-                  :url         => "http://projects.puppetlabs.com/projects/mcollective-plugins/wiki",
                   :timeout     => 5
 
       action "list" do
