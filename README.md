@@ -47,6 +47,15 @@ lxc
           --csv                        Output result in CSV format
     ...
 
+Sample output:
+
+    $ mco lxc list -T LXCHosts
+    Host         Container            Status  
+    STEPPE       QAMain.admin         RUNNING 
+    STEPPE       QAMain.apps          RUNNING 
+    STEPPE       QAMain.monitor       STOPPED 
+    ...
+
 
 lvm
 ---
@@ -61,4 +70,13 @@ lvm
       lvdisplay   - returns the status of all logical volume
     
           --csv                        Output result in CSV format
+    ...
+
+Sample output:
+
+    $ mco lvm lvdisplay -T LXCHosts
+    Host                       Volume     Size
+    LAKE                           IT    16.00
+    LAKE                     Memcache    16.00
+    LAKE                         root    29.80
     ...
