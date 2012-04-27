@@ -15,6 +15,43 @@ action "list", :description => "List Control Groups" do
            :display_as  => "Groups"
 end
 
+action "get", :description => "Get Control Groups value" do
+    display :always
+
+    output :cgroup,
+	   :description => "Control Group Name",
+           :display_as  => "Group"
+    output :value,
+	   :description => "Value",
+           :display_as  => "Value"
+end
+
+action "set", :description => "Set Control Groups value" do
+    output :cgroups,
+	   :description => "List of Control Groups",
+           :display_as  => "Groups"
+
+    input :cgroup,
+          :prompt      => "CGroup",
+          :description => "Control Group to examine",
+          :type        => :string,
+          :validation  => '^[a-zA-Z0-9.]+$',
+          :optional    => true,
+          :maxlength   => 32
+
+    input :key,
+          :prompt      => "Key",
+          :description => "CGroup Key",
+          :type        => :string,
+          :validation  => '^[a-zA-Z0-9_.]+$',
+          :maxlength   => 32
+    input :value,
+          :prompt      => "Value",
+          :description => "CGroup Value",
+          :type        => :string,
+          :validation  => '^[0-9.]+$'
+end
+
 action "blkio", :description => "Show Control Groups Block I/O stuff" do
     display :always
 

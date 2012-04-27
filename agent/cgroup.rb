@@ -13,11 +13,32 @@ module MCollective
         reply[:cgroups] = getcgroups
       end
 
+      action "get" do
+        key = request[:key]
+        getcgroups.each do |cg|
+          if File.directory?("/cgroup/#{cg}")
+            reply[cg] = Hash.new
+            File.open("/cgroup/#{cg}/#{key}", "r")		{ |f| reply[cg][key] = f.read.chomp }
+          end
+        end
+      end
+
+      action "set" do
+        key = request[:key]
+        getcgroups.each do |cg|
+          if File.directory?("/cgroup/#{cg}")
+            File.open("/cgroup/#{cg}/#{key}", "w")		{ |f| f.puts(request[:value]) }
+            reply[cg] = Hash.new
+            File.open("/cgroup/#{cg}/#{key}", "r")		{ |f| reply[cg][key] = f.read.chomp }
+          end
+        end
+      end
+
       action "blkio" do
         getcgroups.each do |cg|
           if File.directory?("/cgroup/#{cg}")
             data = Hash.new
-            File.open("/cgroup/#{cg}/blkio.weight", "r")	{ |f| data[:weight]  = f.read.chomp }
+            File.open("/cgroup/#{cg}/blkio.weight", "r")	{ |f| data[:weight] = f.read.chomp }
             reply[cg] = data
           end
         end
@@ -27,7 +48,7 @@ module MCollective
         getcgroups.each do |cg|
           if File.directory?("/cgroup/#{cg}")
             data = Hash.new
-            File.open("/cgroup/#{cg}/cpu.shares", "r")		{ |f| data[:shares]  = f.read.chomp }
+            File.open("/cgroup/#{cg}/cpu.shares", "r")		{ |f| data[:shares] = f.read.chomp }
             reply[cg] = data
           end
         end

@@ -6,9 +6,13 @@ mco cgroup [OPTIONS] [FILTERS] <ACTION> [CONCURRENCY]
 The ACTION can be one of the following:
 
     list    - returns list of active control groups
+
     blkio   - returns cgroup info about Block I/O
     cpu     - returns cgroup info about CPU Scheduling
     memory  - returns cgroup info about Memory Use
+
+    get     - generic getter
+    set     - generic setter
     END_OF_USAGE
 
   option :csv,
@@ -17,15 +21,23 @@ The ACTION can be one of the following:
   :type           => :bool
 
   option :cgroup,
-  :description    => "Single Group to report",
+  :description    => "Single Group to target",
   :arguments      => ["--cgroup GROUP"]
+
+  option :key,
+  :description    => "CGroup Key",
+  :arguments      => ["--key KEY"]
+
+  option :value,
+  :description    => "CGroup Value",
+  :arguments      => ["--value VALUE"]
 
   def post_option_parser(configuration)
     if ARGV.length >= 1
       configuration[:command] = ARGV.shift
 
-      unless configuration[:command].match(/^(list|blkio|cpu|memory)$/)
-        raise "Action must be one of list, blkio, cpu or memory"
+      unless configuration[:command].match(/^(list|blkio|cpu|memory|get|set)$/)
+        raise "Action must be one of list, get, set, blkio, cpu, memory"
       end
     else
       raise "Please specify an action."
@@ -34,9 +46,6 @@ The ACTION can be one of the following:
 
   def main
     mc = rpcclient("cgroup", :options => options)
-
-    # Hardcoded for my environment
-    mc.collective = 'LXCHosts';
 
     case configuration[:command]
 
@@ -56,6 +65,56 @@ The ACTION can be one of the following:
             printf( format,
                     resp[:senderid].upcase,
                     cgroup )
+          end
+
+        rescue RPCError => e
+          puts "The RPC agent returned an error: #{e}"
+        end
+      end
+
+    when "get"
+
+      if configuration[:csv]
+        format = '"%s","%s","%s"' + "\n";
+      else
+        format = "%-12s %-20s %-20s %12s\n";
+      end
+
+      printf( format, "Host", "Group", "Key", "Value" );
+
+      mc.get(configuration) do |resp|
+        begin
+          resp[:body][:data].keys.sort.each do |cgroup|
+            printf( format,
+                    resp[:senderid].upcase,
+                    cgroup,
+                    resp[:body][:data][cgroup].keys,
+                    resp[:body][:data][cgroup].values )
+          end
+
+        rescue RPCError => e
+          puts "The RPC agent returned an error: #{e}"
+        end
+      end
+
+    when "set"
+
+      if configuration[:csv]
+        format = '"%s","%s","%s"' + "\n";
+      else
+        format = "%-12s %-20s %-20s %12s\n";
+      end
+
+      printf( format, "Host", "Group", "Key", "Value" );
+
+      mc.set(configuration) do |resp|
+        begin
+          resp[:body][:data].keys.sort.each do |cgroup|
+            printf( format,
+                    resp[:senderid].upcase,
+                    cgroup,
+                    resp[:body][:data][cgroup].keys,
+                    resp[:body][:data][cgroup].values )
           end
 
         rescue RPCError => e

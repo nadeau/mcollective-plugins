@@ -29,9 +29,6 @@ The ACTION can be one of the following:
   def main
     mc = rpcclient("lvm", :options => options)
 
-    # Hardcoded for my environment
-    mc.collective = 'LXCHosts';
-
     case configuration[:command]
 
     when "vgdisplay"
