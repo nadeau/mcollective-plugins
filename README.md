@@ -1,8 +1,6 @@
 Linux Containers related MCollective modules
 ============================================
 
-Those are intended 
-
 cgroup
 ------
 
