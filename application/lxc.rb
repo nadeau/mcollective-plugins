@@ -33,19 +33,20 @@ The ACTION can be one of the following:
     when "list"
 
       if configuration[:csv]
-        format = '"%s","%s"' + "\n";
+        format = '"%s","%s","%s"' + "\n";
       else
-        format = "%-12s %-20s\n";
+        format = "%-12s %-20s %-8s\n";
       end
 
-      printf( format, "Host", "Container" );
+      printf( format, "Host", "Container", "Status" );
 
       mc.list(configuration) do |resp|
         begin
-          resp[:body][:data][:containers].sort.each do |container|
+          resp[:body][:data][:containers].keys.sort.each do |ct|
             printf( format,
                     resp[:senderid].upcase,
-                    container )
+                    ct,
+                    resp[:body][:data][:containers][ct] )
           end
 
         rescue RPCError => e

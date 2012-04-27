@@ -6,13 +6,11 @@ mco cgroup [OPTIONS] [FILTERS] <ACTION> [CONCURRENCY]
 The ACTION can be one of the following:
 
     list    - returns list of active control groups
-
+    get     - generic getter
+    set     - generic setter
     blkio   - returns cgroup info about Block I/O
     cpu     - returns cgroup info about CPU Scheduling
     memory  - returns cgroup info about Memory Use
-
-    get     - generic getter
-    set     - generic setter
     END_OF_USAGE
 
   option :csv,

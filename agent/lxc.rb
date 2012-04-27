@@ -10,8 +10,10 @@ module MCollective
                   :timeout     => 5
 
       action "list" do
-        Dir.chdir("/var/lib/lxc")
-        reply[:containers] = Dir.glob("*")
+        reply[:containers] = Hash.new
+        getcontainers.each do |ct|
+          reply[:containers][ct] = open("|lxc-info -s -n #{ct}").readline.match(/\w+$/).to_s
+        end
       end
 
       def getcontainers
@@ -19,7 +21,7 @@ module MCollective
           [ request[:container] ]
         else
           Dir.chdir("/var/lib/lxc")
-          reply[:containers] = Dir.glob("*/")
+          Dir.glob("*/").map{ |ct| ct.chop }
         end
       end
 
