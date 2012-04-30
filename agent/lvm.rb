@@ -5,6 +5,7 @@ module MCollective
                   :description => "Agent to query LVM commands via MCollective",
                   :author      => "Billy Nadeau",
                   :license     => "Apache License, Version 2.0",
+                  :url         => "http://projects.puppetlabs.com/projects/mcollective-plugins/wiki",
                   :version     => "1.0",
                   :timeout     => 5
 
