@@ -10,11 +10,31 @@ module MCollective
                   :timeout     => 5
 
       action "list" do
-        reply[:containers] = Hash.new
         getcontainers.each do |ct|
+          reply[ct] = Hash.new
+          reply[ct][:startup] = File.exist?("/etc/lxc/auto/#{ct}") ? 'Auto' : 'Manual'
+
           f = open("|lxc-info -s -n #{ct}")
-          reply[:containers][ct] = f.readline.match(/\w+$/).to_s
+          reply[ct][:status]  = f.readline.match(/\w+$/).to_s
           f.close
+        end
+      end
+
+      action "autostart" do
+        getcontainers.each do |ct|
+          unless File.exist?("/etc/lxc/auto/#{ct}")
+            File.symlink( "/var/lib/lxc/#{ct}/config", "/etc/lxc/auto/#{ct}" )
+            # reply[ct][:startup] = File.exist?("/etc/lxc/auto/#{ct}") ? 'Auto' : 'ERROR'
+          end
+        end
+      end
+
+      action "manualstart" do
+        getcontainers.each do |ct|
+          if File.exist?("/etc/lxc/auto/#{ct}")
+            File.unlink( "/etc/lxc/auto/#{ct}" )
+            # reply[ct][:startup] = File.exist?("/etc/lxc/auto/#{ct}") ? 'ERROR' : 'Manual'
+          end
         end
       end
 

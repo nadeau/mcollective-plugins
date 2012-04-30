@@ -9,7 +9,39 @@ metadata    :name        => "SimpleRPC Agent For LXC Containers Management",
 action "list", :description => "List Containers" do
     display :always
 
-    output :containers,
-	   :description => "List of Containers",
-           :display_as  => "Containers"
+    input :container,
+          :prompt      => "Container",
+          :description => "Container to list",
+          :type        => :string,
+          :validation  => '^[a-zA-Z0-9.]+$',
+          :optional    => true,
+          :maxlength   => 32
+
+    output :status,
+	   :description => "State of the Container",
+           :display_as  => "Status"
+
+    output :startup,
+	   :description => "Containers autostart status",
+           :display_as  => "Auto Start"
+end
+
+action "autostart", :description => "Set Containers to be started on boot" do
+    input :container,
+          :prompt      => "Container",
+          :description => "Container to edit",
+          :type        => :string,
+          :validation  => '^[a-zA-Z0-9.]+$',
+          :optional    => true,
+          :maxlength   => 32
+end
+
+action "manualstart", :description => "Set Containers to be started manually" do
+    input :container,
+          :prompt      => "Container",
+          :description => "Container to edit",
+          :type        => :string,
+          :validation  => '^[a-zA-Z0-9.]+$',
+          :optional    => true,
+          :maxlength   => 32
 end

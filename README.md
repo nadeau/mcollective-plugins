@@ -26,10 +26,10 @@ cgroup
 Sample output:
 
     $ mco cgroup memory -T LXCHosts
-    Host                        Group     Used      Max    Limit
-    CANTON                Dev.Jabber1      679      751     2048
-    HAMLET                Dev.Jabber2      680      773     2048
-    GROVE                  IT.rabbit3      662      721     2048
+    Host                        Group     Used      Max    Limit  FailCnt
+    CANTON                Dev.Jabber1      679      751     2048        0
+    HAMLET                Dev.Jabber2      680      773     2048        0
+    GROVE                  IT.rabbit3      662      721     2048        0
     ...
 
 
@@ -42,18 +42,21 @@ lxc
     
     The ACTION can be one of the following:
     
-      list    - returns list of LXC containers
+      list     - returns list of LXC containers
+      setauto  - set container(s) to be started on boot
+      noauto   - set container(s) to be started manually
     
           --csv                        Output result in CSV format
+          --container CONTAINER        Single Container to target
     ...
 
 Sample output:
 
     $ mco lxc list -T LXCHosts
-    Host         Container            Status  
-    STEPPE       QAMain.admin         RUNNING 
-    STEPPE       QAMain.apps          RUNNING 
-    STEPPE       QAMain.monitor       STOPPED 
+    Host         Container            Status   Startup
+    STEPPE       QAMain.admin         RUNNING  Auto
+    STEPPE       QAMain.apps          RUNNING  Auto
+    STEPPE       QAMain.monitor       STOPPED  Manual
     ...
 
 
