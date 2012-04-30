@@ -125,7 +125,7 @@ The ACTION can be one of the following:
       if configuration[:csv]
         format = '"%s","%s","%s"' + "\n";
       else
-        format = "%-12s %20s %8s\n";
+        format = "%-12s %-20s %8s\n";
       end
 
       printf( format, "Host", "Group", "Weight" );
@@ -149,7 +149,7 @@ The ACTION can be one of the following:
       if configuration[:csv]
         format = '"%s","%s","%s"' + "\n";
       else
-        format = "%-12s %20s %8s\n";
+        format = "%-12s %-20s %8s\n";
       end
 
       printf( format, "Host", "Group", "Shares" );
@@ -171,12 +171,12 @@ The ACTION can be one of the following:
     when "memory"
 
       if configuration[:csv]
-        format = '"%s","%s","%s","%s","%s"' + "\n";
+        format = '"%s","%s","%s","%s","%s","%s"' + "\n";
       else
-        format = "%-12s %20s %8s %8s %8s\n";
+        format = "%-12s %-20s %8s %8s %8s %8s\n";
       end
 
-      printf( format, "Host", "Group", "Used", "Max", "Limit" );
+      printf( format, "Host", "Group", "Used", "Max", "Limit", "FailCnt" );
 
       mc.memory(configuration) do |resp|
         begin
@@ -186,7 +186,8 @@ The ACTION can be one of the following:
                     cgroup,
                     resp[:body][:data][cgroup][:used],
                     resp[:body][:data][cgroup][:max],
-                    resp[:body][:data][cgroup][:limit] )
+                    resp[:body][:data][cgroup][:limit],
+                    resp[:body][:data][cgroup][:failcnt] )
           end
 
         rescue RPCError => e

@@ -27,8 +27,8 @@ module MCollective
         key = request[:key]
         getcgroups.each do |cg|
           if File.directory?("/cgroup/#{cg}")
-            File.open("/cgroup/#{cg}/#{key}", "w")		{ |f| f.puts(request[:value]) }
             reply[cg] = Hash.new
+            File.open("/cgroup/#{cg}/#{key}", "w")		{ |f| f.puts(request[:value]) }
             File.open("/cgroup/#{cg}/#{key}", "r")		{ |f| reply[cg][key] = f.read.chomp }
           end
         end
@@ -37,9 +37,8 @@ module MCollective
       action "blkio" do
         getcgroups.each do |cg|
           if File.directory?("/cgroup/#{cg}")
-            data = Hash.new
-            File.open("/cgroup/#{cg}/blkio.weight", "r")	{ |f| data[:weight] = f.read.chomp }
-            reply[cg] = data
+            reply[cg] = Hash.new
+            File.open("/cgroup/#{cg}/blkio.weight", "r")	{ |f| reply[cg][:weight] = f.read.chomp }
           end
         end
       end
@@ -47,9 +46,8 @@ module MCollective
       action "cpu" do
         getcgroups.each do |cg|
           if File.directory?("/cgroup/#{cg}")
-            data = Hash.new
-            File.open("/cgroup/#{cg}/cpu.shares", "r")		{ |f| data[:shares] = f.read.chomp }
-            reply[cg] = data
+            reply[cg] = Hash.new
+            File.open("/cgroup/#{cg}/cpu.shares", "r")		{ |f| reply[cg][:shares] = f.read.chomp }
           end
         end
       end
@@ -57,11 +55,11 @@ module MCollective
       action "memory" do
         getcgroups.each do |cg|
           if File.directory?("/cgroup/#{cg}")
-            data = Hash.new
-            File.open("/cgroup/#{cg}/memory.usage_in_bytes", "r")     { |f| data[:used]  = f.read.chomp.to_i / 1048576 }
-            File.open("/cgroup/#{cg}/memory.max_usage_in_bytes", "r") { |f| data[:max]   = f.read.chomp.to_i / 1048576 }
-            File.open("/cgroup/#{cg}/memory.limit_in_bytes", "r")     { |f| data[:limit] = f.read.chomp.to_i / 1048576 }
-            reply[cg] = data
+            reply[cg] = Hash.new
+            File.open("/cgroup/#{cg}/memory.usage_in_bytes", "r")     { |f| reply[cg][:used]    = f.read.chomp.to_i / 1048576 }
+            File.open("/cgroup/#{cg}/memory.max_usage_in_bytes", "r") { |f| reply[cg][:max]     = f.read.chomp.to_i / 1048576 }
+            File.open("/cgroup/#{cg}/memory.limit_in_bytes", "r")     { |f| reply[cg][:limit]   = f.read.chomp.to_i / 1048576 }
+            File.open("/cgroup/#{cg}/memory.failcnt", "r")            { |f| reply[cg][:failcnt] = f.read.chomp }
           end
         end
       end
