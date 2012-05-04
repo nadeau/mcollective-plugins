@@ -1,5 +1,38 @@
-Linux Containers related MCollective modules
-============================================
+MCollective modules for Linux Servers and Containers Management
+===============================================================
+
+procfs
+------
+
+    Linux /proc filesystem agent
+    
+    Usage: mco procfs [OPTIONS] [FILTERS] <ACTION> [CONCURRENCY]
+    
+    The ACTION can be one of the following:
+    
+        load    - returns host load
+        get     - generic getter
+        set     - generic setter
+    
+            --csv                        Output result in CSV format
+            --key KEY                    Proc file
+            --value VALUE                New Value
+    ...
+    
+    Sample output:
+    
+    $ mco procfs load -T LXCHosts
+    Host          Load1  Load5 Load15  Running  Procs
+    TADPOLE        0.00   0.01   0.05        1    281
+    SHRUBLAND      3.18   2.92   2.66        4   3166
+    ...
+    
+    $ mco procfs get --key uptime -T LXCHosts
+    Host         Key          Value               
+    CAVERN       uptime       2717507.72 10724660.39
+    GROTTO       uptime       2717506.91 21592814.11
+    ...
+
 
 cgroup
 ------
@@ -82,4 +115,27 @@ Sample output:
     LAKE                           IT    16.00
     LAKE                     Memcache    16.00
     LAKE                         root    29.80
+    ...
+
+
+drbd
+----
+
+    Linux Replicated Block Device Agent
+    
+    Usage: mco drbd [OPTIONS] [FILTERS] <ACTION> [CONCURRENCY]
+    
+    The ACTION can be one of the following:
+    
+        list    - returns list of replicated block devices
+    
+            --csv                        Output result in CSV format
+    ...
+    
+    Sample output:
+    
+    $ mco drbd list -I hamlet
+    Host                 Dev   Connection   Role         Peer Role    Disk         Peer Disk   
+    HAMLET               1     Connected    Primary      Secondary    UpToDate     UpToDate    
+    HAMLET               2     Connected    Secondary    Primary      UpToDate     UpToDate    
     ...
