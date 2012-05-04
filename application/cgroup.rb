@@ -50,12 +50,12 @@ The ACTION can be one of the following:
     when "list"
 
       if configuration[:csv]
-        format = '"%s","%s"' + "\n";
+        format = '"%s","%s"' + "\n"
       else
-        format = "%-12s %-20s\n";
+        format = "%-12s %-20s\n"
       end
 
-      printf( format, "Host", "Group" );
+      printf( format, "Host", "Group" )
 
       mc.list(configuration) do |resp|
         begin
@@ -73,12 +73,12 @@ The ACTION can be one of the following:
     when "get"
 
       if configuration[:csv]
-        format = '"%s","%s","%s"' + "\n";
+        format = '"%s","%s","%s"' + "\n"
       else
-        format = "%-12s %-20s %-20s %12s\n";
+        format = "%-12s %-20s %-20s %12s\n"
       end
 
-      printf( format, "Host", "Group", "Key", "Value" );
+      printf( format, "Host", "Group", "Key", "Value" )
 
       mc.get(configuration) do |resp|
         begin
@@ -98,12 +98,12 @@ The ACTION can be one of the following:
     when "set"
 
       if configuration[:csv]
-        format = '"%s","%s","%s"' + "\n";
+        format = '"%s","%s","%s"' + "\n"
       else
-        format = "%-12s %-20s %-20s %12s\n";
+        format = "%-12s %-20s %-20s %12s\n"
       end
 
-      printf( format, "Host", "Group", "Key", "Value" );
+      printf( format, "Host", "Group", "Key", "Value" )
 
       mc.set(configuration) do |resp|
         begin
@@ -123,12 +123,12 @@ The ACTION can be one of the following:
     when "blkio"
 
       if configuration[:csv]
-        format = '"%s","%s","%s"' + "\n";
+        format = '"%s","%s","%s"' + "\n"
       else
-        format = "%-12s %-20s %8s\n";
+        format = "%-12s %-20s %8s\n"
       end
 
-      printf( format, "Host", "Group", "Weight" );
+      printf( format, "Host", "Group", "Weight" )
 
       mc.blkio(configuration) do |resp|
         begin
@@ -147,12 +147,12 @@ The ACTION can be one of the following:
     when "cpu"
 
       if configuration[:csv]
-        format = '"%s","%s","%s"' + "\n";
+        format = '"%s","%s","%s"' + "\n"
       else
-        format = "%-12s %-20s %8s\n";
+        format = "%-12s %-20s %8s\n"
       end
 
-      printf( format, "Host", "Group", "Shares" );
+      printf( format, "Host", "Group", "Shares" )
 
       mc.cpu(configuration) do |resp|
         begin
@@ -171,12 +171,12 @@ The ACTION can be one of the following:
     when "memory"
 
       if configuration[:csv]
-        format = '"%s","%s","%s","%s","%s","%s"' + "\n";
+        format = '"%s","%s","%s","%s","%s","%s"' + "\n"
       else
-        format = "%-12s %-20s %8s %8s %8s %8s\n";
+        format = "%-12s %-20s %8s %8s %8s %8s\n"
       end
 
-      printf( format, "Host", "Group", "Used", "Max", "Limit", "FailCnt" );
+      printf( format, "Host", "Group", "Used", "Max", "Limit", "FailCnt" )
 
       mc.memory(configuration) do |resp|
         begin

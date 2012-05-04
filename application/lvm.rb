@@ -34,12 +34,12 @@ The ACTION can be one of the following:
     when "vgdisplay"
 
       if configuration[:csv]
-        format = '"%s","%s","%s","%s"' + "\n";
+        format = '"%s","%s","%s","%s"' + "\n"
       else
-        format = "%-12s %8s %8s %8s\n";
+        format = "%-12s %8s %8s %8s\n"
       end
 
-      printf( format, "Host", "Total", "Alloc", "Free" );
+      printf( format, "Host", "Total", "Alloc", "Free" )
 
       mc.vgdisplay() do |resp|
         begin
@@ -56,12 +56,12 @@ The ACTION can be one of the following:
     when "lvdisplay"
 
       if configuration[:csv]
-        format = '"%s","%s","%s"' + "\n";
+        format = '"%s","%s","%s"' + "\n"
       else
-        format = "%-12s %20s %8s\n";
+        format = "%-12s %20s %8s\n"
       end
 
-      printf( format, "Host", "Volume", "Size" );
+      printf( format, "Host", "Volume", "Size" )
 
       mc.lvdisplay() do |resp|
         begin

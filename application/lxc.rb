@@ -39,12 +39,12 @@ The ACTION can be one of the following:
     when "list"
 
       if configuration[:csv]
-        format = '"%s","%s","%s","%s"' + "\n";
+        format = '"%s","%s","%s","%s"' + "\n"
       else
-        format = "%-12s %-20s %-8s %-8s\n";
+        format = "%-12s %-20s %-8s %-8s\n"
       end
 
-      printf( format, "Host", "Container", "Status", "Startup" );
+      printf( format, "Host", "Container", "Status", "Startup" )
 
       mc.list(configuration) do |resp|
         begin
