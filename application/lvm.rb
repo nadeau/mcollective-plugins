@@ -1,6 +1,6 @@
 class MCollective::Application::Lvm<MCollective::Application
   description "LVM agent, get stats"
-    usage <<-END_OF_USAGE
+  usage <<-END_OF_USAGE
 mco lvm [OPTIONS] [FILTERS] <ACTION> [CONCURRENCY]
 
 The ACTION can be one of the following:

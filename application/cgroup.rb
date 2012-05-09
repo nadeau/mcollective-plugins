@@ -1,6 +1,6 @@
 class MCollective::Application::Cgroup<MCollective::Application
   description "Linux Control Groups agent"
-    usage <<-END_OF_USAGE
+  usage <<-END_OF_USAGE
 mco cgroup [OPTIONS] [FILTERS] <ACTION> [CONCURRENCY]
 
 The ACTION can be one of the following:

@@ -1,6 +1,6 @@
 class MCollective::Application::Procfs<MCollective::Application
   description "Linux /proc filesystem agent"
-    usage <<-END_OF_USAGE
+  usage <<-END_OF_USAGE
 mco procfs [OPTIONS] [FILTERS] <ACTION> [CONCURRENCY]
 
 The ACTION can be one of the following:

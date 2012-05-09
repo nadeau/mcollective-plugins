@@ -1,6 +1,6 @@
 class MCollective::Application::Lxc<MCollective::Application
   description "LXC agent, does stuff"
-    usage <<-END_OF_USAGE
+  usage <<-END_OF_USAGE
 mco lxc [OPTIONS] [FILTERS] <ACTION> [CONCURRENCY]
 
 The ACTION can be one of the following:
