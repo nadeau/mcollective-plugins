@@ -75,9 +75,11 @@ lxc
     
     The ACTION can be one of the following:
     
-      list     - returns list of LXC containers
-      setauto  - set container(s) to be started on boot
-      noauto   - set container(s) to be started manually
+      list         - returns list of LXC containers
+      start        - start container(s) ALL BY DEFAULT
+      stop         - stop container(s) - not implemented
+      autostart    - set container(s) to be started on boot
+      manualstart  - set container(s) to be started manually
     
           --csv                        Output result in CSV format
           --container CONTAINER        Single Container to target

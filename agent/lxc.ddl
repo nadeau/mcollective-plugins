@@ -45,3 +45,31 @@ action "manualstart", :description => "Set Containers to be started manually" do
           :optional    => true,
           :maxlength   => 32
 end
+
+action "start", :description => "Start target container(s)" do
+    input :container,
+          :prompt      => "Container",
+          :description => "Container to start",
+          :type        => :string,
+          :validation  => '^[a-zA-Z0-9.]+$',
+          :optional    => true,
+          :maxlength   => 32
+
+    output :rc,
+	   :description => "Return code from start command",
+           :display_as  => "RC"
+end
+
+action "stop", :description => "Stop target container(s)" do
+    input :container,
+          :prompt      => "Container",
+          :description => "Container to start",
+          :type        => :string,
+          :validation  => '^[a-zA-Z0-9.]+$',
+          :optional    => true,
+          :maxlength   => 32
+
+    output :rc,
+	   :description => "Return code from start command",
+           :display_as  => "RC"
+end

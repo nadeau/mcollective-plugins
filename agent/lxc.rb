@@ -38,6 +38,21 @@ module MCollective
         end
       end
 
+      action "start" do
+        getcontainers.each do |ct|
+          reply[:rc] = %x[ lxc-start -d -n #{ct} ]
+
+          # Why dosen't that work?
+          # reply[:rc] = system( "lxc-start -d -n #{ct}" )
+        end
+      end
+
+      action "stop" do
+        getcontainers.each do |ct|
+          reply[:rc] = %x[ lxc-stop -d -n #{ct} ]
+        end
+      end
+
       def getcontainers
         if request.include?(:container) then
           [ request[:container] ]

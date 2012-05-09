@@ -5,9 +5,11 @@ mco lxc [OPTIONS] [FILTERS] <ACTION> [CONCURRENCY]
 
 The ACTION can be one of the following:
 
-    list     - returns list of LXC containers
-    setauto  - set container(s) to be started on boot
-    noauto   - set container(s) to be started manually
+    list         - returns list of LXC containers
+    start        - start container(s) ALL BY DEFAULT
+    stop         - stop container(s) - not implemented
+    autostart    - set container(s) to be started on boot
+    manualstart  - set container(s) to be started manually
     END_OF_USAGE
 
   option :csv,
@@ -23,8 +25,8 @@ The ACTION can be one of the following:
     if ARGV.length >= 1
       configuration[:command] = ARGV.shift
 
-      unless configuration[:command].match(/^(list|autostart|manualstart)$/)
-        raise "Action must be one of list, autostart or manualstart"
+      unless configuration[:command].match(/^(list|start|stop|autostart|manualstart)$/)
+        raise "Action must be one of list, start, stop, autostart or manualstart"
       end
     else
       raise "Please specify an action."
@@ -60,6 +62,13 @@ The ACTION can be one of the following:
           puts "The RPC agent returned an error: #{e}"
         end
       end
+
+    when "start"
+      mc.start(configuration)
+
+    when "stop"
+      puts "This is serious business kid!"
+      # mc.stop(configuration)
 
     when "autostart"
       mc.autostart(configuration)
