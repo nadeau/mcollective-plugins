@@ -21,13 +21,13 @@ procfs
     
     Sample output:
     
-    $ mco procfs load -T LXCHosts
+    $ mco procfs load
     Host          Load1  Load5 Load15  Running  Procs
     TADPOLE        0.00   0.01   0.05        1    281
     SHRUBLAND      3.18   2.92   2.66        4   3166
     ...
     
-    $ mco procfs get --key uptime -T LXCHosts
+    $ mco procfs get --key uptime
     Host         Key          Value               
     CAVERN       uptime       2717507.72 10724660.39
     GROTTO       uptime       2717506.91 21592814.11
@@ -110,7 +110,7 @@ lvm
 
 Sample output:
 
-    $ mco lvm lvdisplay -T LXCHosts
+    $ mco lvm lvdisplay
     Host                       Volume     Size
     LAKE                           IT    16.00
     LAKE                     Memcache    16.00
