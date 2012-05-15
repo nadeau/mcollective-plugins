@@ -50,15 +50,15 @@ The ACTION can be one of the following:
 
       printf( format, "Host", "Load1", "Load5", "Load15", "Running", "Procs" )
 
-      mc.load(configuration) do |resp|
+      mc.load(configuration).sort_by { |x| -x[:data][:load5].to_f } .each do |resp|
         begin
           printf( format,
-                  resp[:senderid].upcase,
-                  resp[:body][:data][:load1],
-                  resp[:body][:data][:load5],
-                  resp[:body][:data][:load15],
-                  resp[:body][:data][:running],
-                  resp[:body][:data][:processes] )
+                  resp[:sender].upcase,
+                  resp[:data][:load1],
+                  resp[:data][:load5],
+                  resp[:data][:load15],
+                  resp[:data][:running],
+                  resp[:data][:processes] )
           
         rescue RPCError => e
           puts "The RPC agent returned an error: #{e}"
