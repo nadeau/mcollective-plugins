@@ -22,9 +22,24 @@ module MCollective
 
       action "autostart" do
         getcontainers.each do |ct|
-          unless File.exist?("/etc/lxc/auto/#{ct}")
-            File.symlink( "/var/lib/lxc/#{ct}/config", "/etc/lxc/auto/#{ct}" )
-            # reply[ct][:startup] = File.exist?("/etc/lxc/auto/#{ct}") ? 'Auto' : 'ERROR'
+          if File.exist?("/var/lib/lxc/#{ct}")
+            unless File.exist?("/etc/lxc/auto/#{ct}")
+              File.symlink( "/var/lib/lxc/#{ct}/config", "/etc/lxc/auto/#{ct}" )
+              # reply[ct][:startup] = File.exist?("/etc/lxc/auto/#{ct}") ? 'Auto' : 'ERROR'
+            end
+          end
+        end
+      end
+
+      action "autoclean" do
+        Dir.chdir("/etc/lxc/auto")
+        Dir.glob("*").each do |ct|
+          reply[ct] = Hash.new
+          if File.exist?("/var/lib/lxc/#{ct}")
+            reply[ct][:status] = 'valid'
+          else
+            File.unlink( "/etc/lxc/auto/#{ct}" )
+            reply[ct][:status] = 'Removed'
           end
         end
       end

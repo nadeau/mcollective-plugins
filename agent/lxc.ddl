@@ -36,6 +36,14 @@ action "autostart", :description => "Set Containers to be started on boot" do
           :maxlength   => 32
 end
 
+action "autoclean", :description => "Removed broken start links" do
+    display :always
+
+    output :containers,
+	   :description => "Containers start links",
+           :display_as  => "Containers"
+end
+
 action "manualstart", :description => "Set Containers to be started manually" do
     input :container,
           :prompt      => "Container",

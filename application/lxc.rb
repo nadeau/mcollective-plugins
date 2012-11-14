@@ -10,6 +10,7 @@ The ACTION can be one of the following:
     stop         - stop container(s) - not implemented
     autostart    - set container(s) to be started on boot
     manualstart  - set container(s) to be started manually
+    autoclean    - removed broken autostart links
     END_OF_USAGE
 
   option :csv,
@@ -25,7 +26,7 @@ The ACTION can be one of the following:
     if ARGV.length >= 1
       configuration[:command] = ARGV.shift
 
-      unless configuration[:command].match(/^(list|start|stop|autostart|manualstart)$/)
+      unless configuration[:command].match(/^(list|start|stop|autostart|autoclean|manualstart)$/)
         raise "Action must be one of list, start, stop, autostart or manualstart"
       end
     else
@@ -72,6 +73,26 @@ The ACTION can be one of the following:
 
     when "autostart"
       mc.autostart(configuration)
+
+    when "autoclean"
+      if configuration[:csv]
+        format = '"%s","%s","%s"' + "\n"
+      else
+        format = "%-12s %-20s %-8s\n"
+      end
+
+      printf( format, "Host", "Container", "Status" )
+
+      mc.autoclean(configuration) do |resp|
+        begin
+          resp[:body][:data].keys.sort.each do |ct|
+            printf( format,
+                    resp[:senderid].upcase,
+                    ct,
+                    resp[:body][:data][ct][:status] )
+          end
+        end
+      end
 
     when "manualstart"
       mc.manualstart(configuration)
