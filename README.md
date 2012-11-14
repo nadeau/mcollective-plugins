@@ -80,6 +80,7 @@ lxc
       stop         - stop container(s) - not implemented
       autostart    - set container(s) to be started on boot
       manualstart  - set container(s) to be started manually
+      autoclean    - removed broken autostart links
     
           --csv                        Output result in CSV format
           --container CONTAINER        Single Container to target
